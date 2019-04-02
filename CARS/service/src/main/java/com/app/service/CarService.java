@@ -18,10 +18,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CarService {
-    private final Set<Car> CARS;
+    private final Set<Car> cars;
 
     public CarService(String jsonFilename) {
-        this.CARS = initializeCars(jsonFilename);
+        this.cars = initializeCars(jsonFilename);
     }
 
     private Set<Car> initializeCars(String filename) {
@@ -57,16 +57,16 @@ public class CarService {
         Stream<Car> carStream = null;
         switch (sortType) {
             case COLOR:
-                carStream = CARS.stream().sorted(Comparator.comparing(Car::getColor));
+                carStream = cars.stream().sorted(Comparator.comparing(Car::getColor));
                 break;
             case MODEL:
-                carStream = CARS.stream().sorted(Comparator.comparing(Car::getModel));
+                carStream = cars.stream().sorted(Comparator.comparing(Car::getModel));
                 break;
             case PRICE:
-                carStream = CARS.stream().sorted(Comparator.comparing(Car::getPrice));
+                carStream = cars.stream().sorted(Comparator.comparing(Car::getPrice));
                 break;
             case MILEAGE:
-                carStream = CARS.stream().sorted(Comparator.comparing(Car::getMileage));
+                carStream = cars.stream().sorted(Comparator.comparing(Car::getMileage));
         }
         List<Car> sortedCars = carStream.collect(Collectors.toList());
         if (descending) {
@@ -76,7 +76,7 @@ public class CarService {
     }
 
     public List<Car> sortCarsWithGreaterMileage(Long mileage) {
-        return CARS
+        return cars
                 .stream()
                 .filter(car -> car.getMileage() >= mileage)
                 .collect(Collectors.toList());
@@ -98,18 +98,18 @@ public class CarService {
     }
 
     private List<String> groupAllColors() {
-        return CARS
+        return cars
                 .stream()
                 .map(car -> String.valueOf(car.getColor()))
                 .collect(Collectors.toList());
     }
 
     public Map<String, Car> getTheMostExpensiveCarModels() {
-        return CARS
+        return cars
                 .stream()
                 .collect(Collectors.toMap(
                         Car::getModel,
-                        car -> CARS
+                        car -> cars
                                 .stream()
                                 .filter(car1 -> car1.getModel().equals(car.getModel()))
                                 .max(Comparator.comparing(Car::getPrice))
@@ -146,40 +146,40 @@ public class CarService {
     }
 
     private BigDecimalSummaryStatistics priceStats() {
-        return CARS
+        return cars
                 .stream()
                 .collect(Collectors2.summarizingBigDecimal(Car::getPrice));
     }
 
     private LongSummaryStatistics mileageStats() {
-        return CARS
+        return cars
                 .stream()
                 .collect(Collectors.summarizingLong(Car::getMileage));
     }
 
     public List<Car> getTheMostExpensiveCar() {
-        return CARS
+        return cars
                 .stream()
                 .filter(car -> car.getPrice().equals(highestPrice()))
                 .collect(Collectors.toList());
     }
 
     private BigDecimal highestPrice() {
-        return CARS
+        return cars
                 .stream()
                 .map(Car::getPrice)
                 .max(BigDecimal::compareTo)
                 .orElseThrow(NullPointerException::new);
     }
 
-    public Set<Car> getCarsWithSortedComponents() {
-        return CARS.stream()
+    public List<Car> getCarsWithSortedComponents() {
+        return cars.stream()
                 .peek(car -> car.setComponents(car
                         .getComponents()
                         .stream()
                         .sorted()
                         .collect(Collectors.toCollection(LinkedHashSet::new))))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     public Map<String, Set<Car>> getCarsWithParticularComponent() {
@@ -187,7 +187,7 @@ public class CarService {
                 .stream()
                 .collect(Collectors.toMap(
                         component -> component,
-                        component -> CARS
+                        component -> cars
                                 .stream()
                                 .filter(car -> car.getComponents().contains(component))
                                 .collect(Collectors.toSet())
@@ -200,7 +200,7 @@ public class CarService {
     }
 
     private Set<String> getAllComponents() {
-        return CARS
+        return cars
                 .stream()
                 .flatMap(car -> car.getComponents().stream())
                 .collect(Collectors.toSet());
@@ -210,7 +210,7 @@ public class CarService {
         if (minPrice.compareTo(maxPrice) >= 0) {
             throw new MyException(ExceptionCode.CARS, "MIN PRICE IS GREATER THAN MAX PRICE");
         }
-        return CARS
+        return cars
                 .stream()
                 .filter(car -> car.getPrice().compareTo(minPrice) >= 0 && car.getPrice().compareTo(maxPrice) <= 0)
                 .sorted(Comparator.comparing(Car::getModel))
@@ -219,6 +219,6 @@ public class CarService {
 
     @Override
     public String toString() {
-        return String.valueOf(CARS);
+        return String.valueOf(cars);
     }
 }
