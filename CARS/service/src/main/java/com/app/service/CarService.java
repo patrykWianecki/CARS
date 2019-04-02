@@ -47,7 +47,7 @@ public class CarService {
                     atomicInteger.incrementAndGet();
                     return !carValidator.hasErrors();
                 })
-                .collect(Collectors.toSet());
+                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     public List<Car> sortCarsByArgument(SortType sortType, boolean descending) {
