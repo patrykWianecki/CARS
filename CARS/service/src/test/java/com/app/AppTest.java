@@ -52,8 +52,8 @@ public class AppTest {
         List<Car> cars = carService.getCarsWithSortedComponents();
         // then
         Assertions.assertEquals(cars.get(0).getComponents().stream().findFirst().orElse("NO COMPONENT"), "ABS", "FIRST CAR SORTED COMPONENTS TEST FAILED");
-        Assertions.assertEquals(cars.get(1).getComponents().stream().findFirst().orElse("NO COMPONENT"), "BLUETOOTH", "SECOND CAR SORTED COMPONENTS TEST FAILED");
-        Assertions.assertEquals(cars.get(2).getComponents().stream().findFirst().orElse("NO COMPONENT"), "AIR CONDITIONING", "THIRD CAR SORTED COMPONENTS TEST FAILED");
+        Assertions.assertEquals(cars.get(1).getComponents().stream().findFirst().orElse("NO COMPONENT"), "AIR CONDITIONING", "SECOND CAR SORTED COMPONENTS TEST FAILED");
+        Assertions.assertEquals(cars.get(2).getComponents().stream().findFirst().orElse("NO COMPONENT"), "BLUETOOTH", "THIRD CAR SORTED COMPONENTS TEST FAILED");
     }
 
     @Test
