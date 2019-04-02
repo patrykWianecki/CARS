@@ -1,0 +1,33 @@
+[
+  {
+    "model": "BMW",
+    "price": 160,
+    "color": "BLACK",
+    "mileage": 1500,
+    "components": [
+      "ABS",
+      "ALLOY WHEELS",
+      "SUNROOF"
+    ]
+  },
+  {
+    "model": "MAZDA",
+    "price": 160,
+    "color": "BLACK",
+    "mileage": 2500,
+    "components": [
+      "AIR CONDITIONING",
+      "BLUETOOTH"
+    ]
+  },
+  {
+    "model": "MAZDA",
+    "price": 120,
+    "color": "GREEN",
+    "mileage": 2000,
+    "components": [
+      "ESP",
+      "BLUETOOTH"
+    ]
+  }
+]
