@@ -1,4 +1,4 @@
-package com.app.validator.data;
+package com.app.validator;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -8,8 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.app.model.Car;
-import com.app.validator.CarValidator;
-import com.app.validator.MockDataForTests;
+import com.app.validator.data.MockDataForTests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
