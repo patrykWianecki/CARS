@@ -1,83 +1,57 @@
 package com.app.validator;
 
-import com.app.exceptions.ExceptionCode;
-import com.app.exceptions.MyException;
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.Set;
+
+import org.apache.commons.collections4.CollectionUtils;
+
 import com.app.model.Car;
 import com.app.model.enums.Color;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import static java.math.BigDecimal.*;
 
 public class CarValidator {
-    private Map<String, String> errors = new LinkedHashMap<>();
 
-    public Map<String, String> validate(Car car) {
-        errors.clear();
-        if (car == null) {
-            errors.put("car", "object is null");
-        }
-        if (!isModelValid(car.getModel())) {
-            errors.put("model", "model is not valid");
-        }
-        if (!isPriceValid(car.getPrice())) {
-            errors.put("price", "price is not valid");
-        }
-        if (!isColorValid(car.getColor())) {
-            errors.put("color", "color is not valid");
-        }
-        if (!isMileageValid(car.getMileage())) {
-            errors.put("mileage", "mileage is not valid");
-        }
-        if (!areComponentsValid(car.getComponents())) {
-            errors.put("components", "components are not valid");
-        }
-        return errors;
-    }
+  public static boolean isCarValid(Car car) {
+    Optional.ofNullable(car).orElseThrow(() -> new NullPointerException("Car is null"));
 
-    public boolean hasErrors() {
-        return !errors.isEmpty();
-    }
+    return isModelValid(car.getModel()) &&
+        isPriceValid(car.getPrice()) &&
+        isColorValid(car.getColor()) &&
+        isMileageValid(car.getMileage()) &&
+        areComponentsValid(car.getComponents());
+  }
 
-    private boolean isModelValid(String model) {
-        if (model == null || !model.matches("[A-Z]+\\s{0,1}[A-Z]*")) {
-            throw new MyException(ExceptionCode.VALIDATOR, "MODEL IS NOT VALID: " + model);
-        }
-        return true;
-    }
+  private static boolean isModelValid(String model) {
+    Optional.ofNullable(model).orElseThrow(() -> new NullPointerException("Model is null"));
+    return model.matches("[A-Z]+\\s{0,1}[A-Z]*");
+  }
 
-    private boolean isPriceValid(BigDecimal price) {
-        if (price == null || price.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new MyException(ExceptionCode.VALIDATOR, "PRICE IS NOT VALID: " + price);
-        }
-        return true;
-    }
+  private static boolean isPriceValid(BigDecimal price) {
+    Optional.ofNullable(price).orElseThrow(() -> new NullPointerException("Price is null"));
+    return ZERO.intValue() < price.compareTo(ZERO);
+  }
 
-    private boolean isColorValid(Color color) {
-        if (color == null) {
-            throw new MyException(ExceptionCode.VALIDATOR, "COLOR IS NULL");
-        }
-        Arrays.stream(Color.values()).anyMatch(enumColor -> enumColor.equals(color));
-        return true;
-    }
+  private static boolean isColorValid(Color color) {
+    Optional.ofNullable(color).orElseThrow(() -> new NullPointerException("Color is null"));
+    return Arrays.asList(Color.values()).contains(color);
+  }
 
-    private boolean isMileageValid(Long mileage) {
-        if (mileage == null || mileage < 0L) {
-            throw new MyException(ExceptionCode.VALIDATOR, "MILEAGE IS NOT VALID: " + mileage);
-        }
-        return true;
-    }
+  private static boolean isMileageValid(Long mileage) {
+    Optional.ofNullable(mileage).orElseThrow(() -> new NullPointerException("Mileage is null"));
+    return ZERO.longValue() < mileage;
+  }
 
-    private boolean areComponentsValid(Set<String> components) {
-        if (components == null || !(components.stream().allMatch(this::isComponentsValid))) {
-            throw new MyException(ExceptionCode.VALIDATOR, "COMPONENTS ARE NOT VALID: " + components);
-        }
-        return true;
+  private static boolean areComponentsValid(Set<String> components) {
+    if (CollectionUtils.isEmpty(components)) {
+      throw new NullPointerException("Components is null or empty");
     }
+    return components.stream().allMatch(CarValidator::isComponentValid);
+  }
 
-    private boolean isComponentsValid(String component) {
-        return component.matches("[A-Z]+\\s{0,1}[A-Z]*");
-    }
+  private static boolean isComponentValid(String component) {
+    return component.matches("[A-Z]+\\s{0,1}[A-Z]*");
+  }
 }

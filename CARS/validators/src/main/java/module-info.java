@@ -1,6 +1,6 @@
 module validators {
-    exports com.app.validator to service;
+  exports com.app.validator to service;
 
-    requires exceptions;
-    requires model;
+  requires model;
+  requires org.apache.commons.collections4;
 }

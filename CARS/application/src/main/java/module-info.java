@@ -1,3 +1,3 @@
 module application {
-    requires service;
+  requires service;
 }
