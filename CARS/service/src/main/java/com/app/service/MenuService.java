@@ -17,40 +17,21 @@ public class MenuService {
         int option = USER_DATA_SERVICE.getInt("Choose option");
 
         switch (option) {
-          case 1:
-            displayCarsByChosenAttribute();
-            break;
-          case 2:
-            displayCarsWithGreaterMileageThanGiven();
-            break;
-          case 3:
-            displayNumberOfCarsWithParticularColor();
-            break;
-          case 4:
-            displayCarsWithTheMostExpensiveModel();
-            break;
-          case 5:
-            displayCarsStatistics();
-            break;
-          case 6:
-            displayTheMostExpensiveCar();
-            break;
-          case 7:
-            displayCarsWithSortedComponents();
-            break;
-          case 8:
-            displayCarsWithParticularComponent();
-            break;
-          case 9:
-            displayCarsFromGivenPriceRange();
-            break;
-          case 10:
+          case 1 -> displayCarsByChosenAttribute();
+          case 2 -> displayCarsWithGreaterMileageThanGiven();
+          case 3 -> displayNumberOfCarsWithParticularColor();
+          case 4 -> displayCarsWithTheMostExpensiveModel();
+          case 5 -> displayCarsStatistics();
+          case 6 -> displayTheMostExpensiveCar();
+          case 7 -> displayCarsWithSortedComponents();
+          case 8 -> displayCarsWithParticularComponent();
+          case 9 -> displayCarsFromGivenPriceRange();
+          case 10 -> {
             USER_DATA_SERVICE.close();
             System.out.println("The end");
             return;
-          default:
-            System.out.println("Invalid command!");
-            break;
+          }
+          default -> System.out.println("Invalid command!");
         }
       } catch (Exception e) {
         e.printStackTrace();
